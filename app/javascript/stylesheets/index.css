@@ -1,0 +1,9 @@
+.error-message {
+  color: rgb(255, 9, 9);
+  margin-top: 2px;
+  font-size: 10px;
+  font-weight: lighter;
+}
+.error-message ul {
+  padding-left: 15px;
+}

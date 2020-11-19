@@ -1,0 +1,17 @@
+.footer {
+  background-color: #5000ca;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5 rem;
+}
+.footer h3 {
+  font-size: 3rem;
+  color: white;
+  text-transform: capitalize;
+}
+.footer p {
+  font-weight: 300;
+  color: white;
+}
