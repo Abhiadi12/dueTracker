@@ -2,11 +2,13 @@ import {
   REQUEST_FOR_CURRENT_USER,
   FETCH_CURRENT_USER_SUCCESS,
   FETCH_CURRENT_USER_FAILURE,
+  AUTO_LOGIN_USER,
   LOGOUT,
 } from "./authTypes";
 import axios from "axios";
 import { setError } from "../error/errorActions";
 import { setFlashMessage } from "../flash/flashActions";
+import jwt_decode from "jwt-decode";
 
 export const requestForCurrentUser = () => {
   return {
@@ -25,6 +27,13 @@ export const fetchCurrentUserSuccess = (response) => {
 export const fetchCurrentUserFailure = () => {
   return {
     type: FETCH_CURRENT_USER_FAILURE,
+  };
+};
+
+export const autoLoginUser = (response) => {
+  return {
+    type: AUTO_LOGIN_USER,
+    current_user: response.current_user,
   };
 };
 
@@ -110,6 +119,30 @@ export const updateUser = (id, editedData, token) => {
         dispatch(fetchCurrentUserSuccess(response.data));
         dispatch(setFlashMessage(" Updated successfully ", "green"));
       }
+    } catch (error) {
+      dispatch(setFlashMessage(error.response.data.message, "red"));
+    }
+  };
+};
+
+export const getLoggedUser = (token) => {
+  return async (dispatch) => {
+    const jwt_Token_decoded = jwt_decode(token);
+    console.log(jwt_Token_decoded.exp < Date.now() / 1000);
+    if (jwt_Token_decoded.exp < Date.now() / 1000) {
+      dispatch(logout());
+      dispatch(
+        setFlashMessage("Session expire please login to continue", "orange")
+      );
+      return;
+    }
+    try {
+      const response = await axios.get("/api/v1/auto_login", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatch(autoLoginUser(response.data));
     } catch (error) {
       dispatch(setFlashMessage(error.response.data.message, "red"));
     }

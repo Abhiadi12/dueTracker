@@ -9,11 +9,7 @@ module Api
       end
 
       def auto_login
-        if current_user 
-          render json: { current_user: current_user } 
-        else
-          render json: { message: " Please login "}
-        end
+        render json: { current_user: current_user }
       end
 
     end

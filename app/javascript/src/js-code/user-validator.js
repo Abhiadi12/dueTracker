@@ -39,6 +39,11 @@ export const userFormRules = {
     test: (val) => hasSpecial(val),
     message: () => `Password must contain a special character`,
   },
+  amountMustGreaterThanZero: {
+    test: (val) => val > 0,
+    message: () => `Amount must be greater than zero`,
+  },
+
   required: {
     message: (field) =>
       `${

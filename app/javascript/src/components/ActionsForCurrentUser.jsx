@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Menu, Dropdown, Header, Icon, Modal, Button } from "semantic-ui-react";
 import { setFlashMessage } from "../redux/flash/flashActions";
 import { deleteUser } from "../redux/auth/authActions";
+import { resetContact } from "../redux/contact/contactActions";
 
 function ActionsForCurrentUser(props) {
   const [open, setOpen] = React.useState(false);
@@ -17,6 +18,8 @@ function ActionsForCurrentUser(props) {
         color={color}
         active={activeItem === "Add"}
         onClick={handleItemClick}
+        as={Link}
+        to="/addContact"
       />
 
       <Menu.Item
@@ -25,6 +28,8 @@ function ActionsForCurrentUser(props) {
         color={color}
         active={activeItem === "About"}
         onClick={handleItemClick}
+        as={Link}
+        to="/about"
       />
 
       <Dropdown text="Settings" pointing className="link item">
@@ -74,6 +79,7 @@ function ActionsForCurrentUser(props) {
           <Dropdown.Item
             onClick={() => {
               logout();
+              dispatch(resetContact());
               dispatch(setFlashMessage("Logout successfully", "green"));
             }}
           >

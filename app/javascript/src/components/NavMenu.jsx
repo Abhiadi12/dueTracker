@@ -5,8 +5,10 @@ import { Menu, Button, Label } from "semantic-ui-react";
 import { logout } from "../redux/auth/authActions";
 import ActionsForCurrentUser from "./ActionsForCurrentUser";
 import AlertComponent from "./AlertComponent";
+import CustomSearch from "./CustomSearch";
 import PropTypes from "prop-types";
 import { removeFlashMessage } from "../redux/flash/flashActions";
+import ContactCoulmn from "./ContactCoulmn";
 
 class NavMenu extends Component {
   constructor(props) {
@@ -19,8 +21,9 @@ class NavMenu extends Component {
   render() {
     const { activeItem } = this.state;
     const { title, color, toggleFormState, isLoginForm } = this.props;
-    const { current_user, token, flashMessage, messageColor } = this.props;
-    const { logout, removeFlashMessage } = this.props;
+    const { current_user, flashMessage, messageColor } = this.props;
+    const { logout, removeFlashMessage } = this.props; // actions
+    const token = localStorage.getItem("token");
     if (flashMessage)
       setTimeout(function () {
         removeFlashMessage();
@@ -35,6 +38,8 @@ class NavMenu extends Component {
             active={activeItem === title}
             onClick={this.handleItemClick}
             icon="home"
+            as={Link}
+            to="/profile"
           />
 
           <Menu.Item
@@ -43,6 +48,8 @@ class NavMenu extends Component {
             color={color}
             active={activeItem === "reviews"}
             onClick={this.handleItemClick}
+            as={Link}
+            to="/review"
           />
 
           {token && (
@@ -58,10 +65,15 @@ class NavMenu extends Component {
 
           <Menu.Menu position="right">
             {token ? (
-              <Label as="a" image>
-                <img src="https://picsum.photos/200/300/?blur=2" />
-                {` welcome ${current_user.username} `}
-              </Label>
+              <>
+                <div style={{ marginRight: "16px", padding: "6px" }}>
+                  <CustomSearch />
+                </div>
+                <Label as="a" image>
+                  <img src="https://picsum.photos/200/300/?blur=2" />
+                  {` welcome ${current_user.username} `}
+                </Label>
+              </>
             ) : isLoginForm ? (
               <Menu.Item>
                 <Button
@@ -102,7 +114,6 @@ class NavMenu extends Component {
 const mapStateToProps = (state) => {
   return {
     current_user: state.auth.user,
-    token: state.auth.token,
     flashMessage: state.flash.message,
     messageColor: state.flash.color,
   };

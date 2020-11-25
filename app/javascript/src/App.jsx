@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavMenu from "./components/NavMenu";
 import LoginForm from "./components/LoginForm";
@@ -6,7 +6,10 @@ import SignupForm from "./components/SignupForm";
 import Footer from "./components/Footer";
 import Profile from "./components/Profile";
 import EditUserForm from "./components/EditUserForm";
+import EditUserContact from "./components/EditUserContact";
 import ChangePasswordForm from "./components/ChangePassword";
+import Review from "./components/Review";
+import AddContact from "./components/AddContact";
 import NotFound from "./components/NotFound";
 import { Provider } from "react-redux";
 import store from "./redux/store";
@@ -20,6 +23,10 @@ function App() {
     setIsLoginForm(!isLoginForm);
     console.log("clicked");
   };
+
+  useEffect(() => {
+    console.log("App compoent mount");
+  }, []);
 
   return (
     <Provider store={store}>
@@ -37,7 +44,14 @@ function App() {
             <Route exact path="/login" component={LoginForm} />
             <Route exact path="/" component={LoginForm} />
             <Route exact path="/profile" component={Profile} />
+            <Route exact path="/review" component={Review} />
+            <Route exact path="/addContact" component={AddContact} />
             <Route exact path="/users/edit/:id" component={EditUserForm} />
+            <Route
+              exact
+              path="/contacts/edit/:id"
+              component={EditUserContact}
+            />
             <Route
               exact
               path="/signup"

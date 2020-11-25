@@ -2,6 +2,7 @@ import {
   REQUEST_FOR_CURRENT_USER,
   FETCH_CURRENT_USER_SUCCESS,
   FETCH_CURRENT_USER_FAILURE,
+  AUTO_LOGIN_USER,
   LOGOUT,
 } from "./authTypes";
 
@@ -19,6 +20,7 @@ const authReducer = (state = initialUserState, action) => {
         loading: true,
       };
     case FETCH_CURRENT_USER_SUCCESS:
+      localStorage.setItem("token", action.token);
       return {
         ...state,
         user: action.current_user,
@@ -30,7 +32,13 @@ const authReducer = (state = initialUserState, action) => {
         ...state,
         loading: false,
       };
+    case AUTO_LOGIN_USER:
+      return {
+        ...state,
+        user: action.current_user,
+      };
     case LOGOUT:
+      localStorage.removeItem("token");
       return {
         loading: false,
         user: {},

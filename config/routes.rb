@@ -8,8 +8,8 @@ Rails.application.routes.draw do
       end
       post "/login", to: "auth#authenticate"
       get "/auto_login", to: "auth#auto_login"
-      put "change_password", to: "users#update_password"
-      
+      put "/change_password", to: "users#update_password"
+      get "/contacts", to: "contacts#user_posts"
     end
   end
 

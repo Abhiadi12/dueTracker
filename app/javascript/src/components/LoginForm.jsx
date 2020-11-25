@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import LoaderPage from "./LoaderPage";
@@ -25,7 +25,7 @@ const LoginForm = () => {
   const changeVisibilityOfPassword = () => setHiddenPassword(!hiddenPassword);
 
   const loading = useSelector((state) => state.auth.loading);
-  const token = useSelector((state) => state.auth.token);
+  const token = localStorage.getItem("token");
 
   //const current_user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
@@ -40,6 +40,9 @@ const LoginForm = () => {
     window.scrollTo(0, 0);
     dispatch(fetchUser(loginFormObject.email, loginFormObject.password));
   };
+  useEffect(() => {
+    console.log("Login form component");
+  }, []);
 
   if (token) {
     return <Redirect to="/profile" />;

@@ -18,7 +18,8 @@ import {
 } from "semantic-ui-react";
 
 function ChangePassword() {
-  const token = useSelector((state) => state.auth.token);
+  const token = localStorage.getItem("token");
+  const storeToken = useSelector((state) => state.auth.token);
   const [changePasswordForm, setChangePasswordForm] = useState({
     password: "",
     confirm_password: "",
@@ -59,23 +60,6 @@ function ChangePassword() {
 
     const onSubmitHandler = async (event) => {
       event.preventDefault();
-      /*const requestOptions = {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        password: changePasswordForm.password,
-      };*/
-      /*fetch("/api/v1/change_password", {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ password: changePasswordForm.password }),
-      })
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((err) => console.log(err));*/
       try {
         const response = await axios.put(
           "/api/v1/change_password",

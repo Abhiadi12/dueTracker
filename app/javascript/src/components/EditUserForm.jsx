@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import Validate from "react-validate-form";
@@ -6,7 +6,8 @@ import ErrorComponent from "./ErrorComponent";
 import { userFormRules } from "../js-code/user-validator"; // validation form
 import { displayErrors, numberOfErrors } from "../js-code/error-helper"; // error helper
 import contries from "../countries";
-import { updateUser } from "../redux/auth/authActions";
+import { updateUser, autoLoginUser } from "../redux/auth/authActions";
+import axios from "axios";
 import {
   Button,
   Input,
@@ -18,25 +19,47 @@ import {
 } from "semantic-ui-react";
 
 function EditUserForm(props) {
-  const token = useSelector((state) => state.auth.token);
+  const token = localStorage.getItem("token");
+  const current_user = useSelector((state) => state.auth.user);
   const { id } = props.match.params;
-  const user = useSelector((state) => state.auth.user);
   const isOpen = useSelector((state) => state.error.isOpen);
   const dispatch = useDispatch();
   const [hiddenPassword, setHiddenPassword] = useState(true);
 
   const changeVisibilityOfPassword = () => setHiddenPassword(!hiddenPassword);
   const [editUserFormObject, setEditUserFormFormObject] = useState({
-    username: user.username,
-    email: user.email,
+    username: "",
+    email: "",
     password: "",
-    phone: user.phone,
+    phone: "",
   });
 
   const [dynamicInput, setDynamicInput] = useState({
     suggestions: [],
-    text: user.country,
+    text: "",
   });
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const response = await axios.get("/api/v1/auto_login", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const { username, email, phone, country } = response.data.current_user;
+      setEditUserFormFormObject((state) => ({
+        ...state,
+        username,
+        email,
+        phone,
+      }));
+      setDynamicInput({ suggestions: [], text: country });
+      dispatch(autoLoginUser(response.data));
+    };
+    if (token) {
+      fetchUser();
+    }
+  }, []);
 
   if (token) {
     const rules = userFormRules;
