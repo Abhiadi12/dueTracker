@@ -54,3 +54,12 @@
 .pagination > li:last-child > span {
   border-radius: unset;
 }
+.rating {
+  max-width: 600px;
+  margin: 1rem auto;
+}
+.user-profile {
+  margin: 1rem auto;
+  padding: 10px;
+  border: 1px solid grey;
+}

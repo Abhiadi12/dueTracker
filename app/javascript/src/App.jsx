@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import NavMenu from "./components/NavMenu";
 import LoginForm from "./components/LoginForm";
 import SignupForm from "./components/SignupForm";
@@ -10,6 +15,7 @@ import EditUserContact from "./components/EditUserContact";
 import ChangePasswordForm from "./components/ChangePassword";
 import Review from "./components/Review";
 import AddContact from "./components/AddContact";
+import DisplayUser from "./components/DisplayUser";
 import NotFound from "./components/NotFound";
 import { Provider } from "react-redux";
 import store from "./redux/store";
@@ -67,6 +73,13 @@ function App() {
               path="/change_password"
               component={ChangePasswordForm}
             />
+            <Route exact path="/find_user/:name">
+              {localStorage.getItem("token") ? (
+                <DisplayUser />
+              ) : (
+                <Redirect to="/login" />
+              )}
+            </Route>
             <Route component={NotFound} />
           </Switch>
         </div>

@@ -8,7 +8,6 @@ import AlertComponent from "./AlertComponent";
 import CustomSearch from "./CustomSearch";
 import PropTypes from "prop-types";
 import { removeFlashMessage } from "../redux/flash/flashActions";
-import ContactCoulmn from "./ContactCoulmn";
 
 class NavMenu extends Component {
   constructor(props) {
@@ -28,7 +27,7 @@ class NavMenu extends Component {
       setTimeout(function () {
         removeFlashMessage();
       }, 5000);
-
+    console.log(" Nav menu ");
     return (
       <>
         <Menu inverted stackable>

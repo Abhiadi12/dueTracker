@@ -14,8 +14,11 @@ module ExceptionHandler
     rescue_from ExceptionHandler::InvalidToken, with: :four_twenty_two
 
     rescue_from ActiveRecord::RecordNotFound do |e|
-      #render json: { message: e.message }, status: :not_found
-      render file: 'public/422.html', status: :not_found
+      render json: { message: e.message }, status: :not_found
+      #render file: 'public/422.html', status: :not_found
+    end
+    rescue_from Pundit::NotAuthorizedError do |e|
+      render json: { message: "Unauthorized request"}, status: :unauthorized
     end
   end
 

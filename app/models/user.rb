@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :contacts, dependent: :destroy
+  has_one :rating, dependent: :destroy
   #validations
   VALID_NAME_REGEX = /\A[A-Za-z]+(?:[ _-][A-Za-z0-9]+)*\z/
   VALID_EMAIL_REGEX = /\A[^@\s]+@[^@\s]+\z/
@@ -208,6 +209,12 @@ Zimbabwe),
     message: "%{value} is not a valid country" }
 
     before_validation :ensure_country_is_capitalize
+
+    def self.getUsersByQuery(query)
+      User.all.select do|user| 
+        user.username.downcase.starts_with?(query)
+      end
+    end
  
     private
       def ensure_country_is_capitalize   

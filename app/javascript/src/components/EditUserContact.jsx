@@ -40,6 +40,7 @@ function EditUserContact(props) {
   const [status, setStatus] = useState("select");
   const minDate = currentDateHelper();
   const [currentDate, bindCurrentDate, , setDateInput] = useInput(minDate);
+  const history = useHistory();
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -69,13 +70,12 @@ function EditUserContact(props) {
         setDateInput(timeperiod);
       } catch (error) {
         dispatch(setFlashMessage(error.response.data.message, "orange"));
+        history.push("/profile");
       }
     };
     if (token && current_user.id) fetchContact();
     if (token && !current_user.id) dispatch(getLoggedUser(token));
   }, [current_user]);
-
-  const history = useHistory();
 
   const customRules = {
     sameEmailNotAllowed: {

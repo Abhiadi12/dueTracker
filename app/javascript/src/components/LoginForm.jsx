@@ -40,9 +40,6 @@ const LoginForm = () => {
     window.scrollTo(0, 0);
     dispatch(fetchUser(loginFormObject.email, loginFormObject.password));
   };
-  useEffect(() => {
-    console.log("Login form component");
-  }, []);
 
   if (token) {
     return <Redirect to="/profile" />;

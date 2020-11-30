@@ -1,11 +1,12 @@
 module Api 
   module V1
     class UsersController < ApplicationController
-      skip_before_action :authorize_request, only: [:create]
+      skip_before_action :authorize_request, only: [:create, :search]
        
       def create
         user = User.new(user_params)
         if user.save 
+          Rating.create(value: 0, user: user)
           token = JsonWebToken.encode(user_id: user.id)
           render json: { current_user: user, token: token }
         else
@@ -42,6 +43,15 @@ module Api
       def update_password
         current_user.update(update_password_params)
         render json: { message: " Password change successfully "}
+      end
+
+      def search
+        render json: { users: User.getUsersByQuery(params[:value].downcase)}
+      end
+
+      def find_user
+        user =  User.find_by!(username: params[:name])
+        render json: { user: user}
       end
 
       private

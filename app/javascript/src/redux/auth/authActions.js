@@ -99,8 +99,7 @@ export const deleteUser = (user, token) => {
         dispatch(setFlashMessage(response.data.message));
       else dispatch(logout());
     } catch (error) {
-      console.log(error);
-      dispatch(setFlashMessage(" Unauthorized request can't process ", "red"));
+      dispatch(setFlashMessage((error.response.data.message, "red")));
     }
   };
 };

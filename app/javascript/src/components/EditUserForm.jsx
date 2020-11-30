@@ -16,6 +16,8 @@ import {
   Form,
   List,
   Divider,
+  Header,
+  Icon,
 } from "semantic-ui-react";
 
 function EditUserForm(props) {
@@ -120,6 +122,24 @@ function EditUserForm(props) {
       window.scrollTo(0, 0);
     };
 
+    if (current_user.id && current_user.id != id) {
+      return (
+        <Segment>
+          <Header as="h2" icon textAlign="center" color="red">
+            <Icon name="exclamation circle" />
+            Error!!!
+            <Header.Subheader>
+              It seems that you are trying to access wrong page
+              <p>
+                <span style={{ fontSize: "20px" }}>
+                  &#128557;&#128557;&#128557;
+                </span>
+              </p>
+            </Header.Subheader>
+          </Header>
+        </Segment>
+      );
+    }
     return (
       <Segment placeholder>
         <Divider />

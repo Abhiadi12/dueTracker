@@ -13,6 +13,7 @@ module Api
 
       def destroy
         contact = Contact.find(params[:id]);
+        authorize contact
         unless contact.nil?
           contact.destroy
           head :no_content
@@ -23,11 +24,13 @@ module Api
 
       def show 
         contact = Contact.find(params[:id])
+        authorize contact
         render json:  ContactSerializer.new(contact)
       end
 
       def update
         contact = Contact.find(params[:id])
+        authorize contact
         contact.update!(contact_params)
         render json: ContactSerializer.new(contact);
       end

@@ -10,6 +10,11 @@ Rails.application.routes.draw do
       get "/auto_login", to: "auth#auto_login"
       put "/change_password", to: "users#update_password"
       get "/contacts", to: "contacts#user_posts"
+      get "/ratings", to: "ratings#index"
+      get "/get_score", to: "ratings#get_score"
+      patch "/rate_by_user", to: "ratings#rate_by_user"
+      get "/search", to: "users#search"
+      get "find_user/:name", to: "users#find_user"
     end
   end
 
